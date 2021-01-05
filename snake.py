@@ -28,13 +28,13 @@ class SnakeGame:
 
     def next_turn(self) -> Literal['Stuck', 'Win', 'Next']:
         x, y = self.snake_body[-1]
-        next_place = match(self.snake_direct,
-                           'U', Point(x, y - 1), 'D', Point(x, y + 1),
-                           'L', Point(x - 1, y), 'R', Point(x + 1, y))
-        if not 0 <= next_place.x < self.x_len or not 0 <= next_place.y < self.y_len:
+        x = match(self.snake_direct, 'U', x, 'D', x, 'L', x - 1, 'R', x + 1)
+        y = match(self.snake_direct, 'L', y, 'R', y, 'U', y - 1, 'D', y + 1)
+        next_place = Point(x, y)
+        if not 0 <= x < self.x_len or not 0 <= y < self.y_len:
             if self.no_wall:
-                x = 0 if next_place.x >= self.x_len else self.x_len if next_place.x < 0 else x  # 处理穿墙部分
-                y = 0 if next_place.y >= self.y_len else self.y_len if next_place.y < 0 else y  #
+                x = 0 if x >= self.x_len else self.x_len if x < 0 else x  # 处理穿墙部分
+                y = 0 if y >= self.y_len else self.y_len if y < 0 else y  #
                 next_place = Point(x, y)
             else:
                 return 'Stuck'
@@ -59,7 +59,7 @@ def main():
     def draw_rect(surface, color, point: Point):
         pygame.draw.rect(surface, color, (point.x * 20, point.y * 20, 20, 20), 0)
 
-    game = SnakeGame()
+    game = SnakeGame(10, 10, 5, True)
     pygame.init()
     display = pygame.display.set_mode((game.x_len * 20, game.y_len * 20))
     pygame.display.set_caption('Snake')
