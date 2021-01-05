@@ -8,4 +8,4 @@
 
 ## LICENSE
 
-GPLv3
+AGPLv3
